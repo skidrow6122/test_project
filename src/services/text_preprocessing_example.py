@@ -12,9 +12,15 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.stem import PorterStemmer
 from nltk.stem import LancasterStemmer
+from collections import Counter
+
+from tensorflow import keras
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
 
 
 def test_text_preprocessing():
+
 
     print('📌 Text PreProcessing Summary:')
 
@@ -97,6 +103,108 @@ def test_text_preprocessing():
     print("Before Stemming :", tokenized_sentence)
     print("After Porter Stemming :", [porter_stemmer.stem(word) for word in tokenized_sentence])
     print("After Lancaster Stemming :", [lancaster_stemmer.stem(word) for word in tokenized_sentence])
+
+
+def test_encoding():
+
+    print('📌 Integer Encoding :')
+
+    # Integer Encoding
+    raw_text = "A barber is a person. a barber is good person. a barber is huge person. he Knew A Secret! The Secret He Kept is huge secret. Huge secret. His barber kept his word. a barber kept his word. His barber kept his secret. But keeping and keeping such a huge secret to himself was driving the barber crazy. the barber went up a huge mountain."
+    sentences = sent_tokenize(raw_text)
+    print("Tokenized Sentence :", sentences)
+
+    vocab = {}
+    preprocessed_sentences = []
+    stop_words = set(stopwords.words('english'))
+
+
+    for sentence in sentences:
+        # 1. sentence tokenization
+        toknized_setence = word_tokenize(sentence)
+        result = []
+
+        # 2. word tokenization with Nomalization and Cleaning
+        for word in toknized_setence:
+            word = word.lower() # lower char
+            if word not in stop_words: # filtering stopword
+                if len(word) > 2: # filtering shorter than 3 char
+                    result.append(word)
+                    if word not in vocab: # counting
+                        vocab[word] = 0
+                    vocab[word] += 1
+        preprocessed_sentences.append(result)
+
+
+    ##### using dictionary method
+    print('📌 Integer Encoding using Dictionary :')
+    print("Normalized and Cleaned voca dictionary:", preprocessed_sentences)
+    print("Counted Words:", vocab)
+
+    # 3. Sorting dictionary by frequency
+    sorted_vocab = sorted(vocab.items(), key=lambda x:x[1], reverse=True)
+    print("Sorted Words by frequency:", sorted_vocab)
+
+    # 4. indexing
+    word_to_index = {}
+    i = 0
+    for word, freq in sorted_vocab:
+        if freq > 1: # filtering low freq
+            i = i + 1
+            word_to_index[word] = i
+    print("Indexed Words by frequency:", word_to_index)
+
+    # 5. Cleaning except for Top 5
+    vocab_size = 5
+    words_frequency = [
+        word for word, index in word_to_index.items()
+        if index >= vocab_size + 1
+    ]
+    print("Out of Top 5 words:", words_frequency)
+
+    # 6. removing OOT 5 words
+    for word in words_frequency:
+        del word_to_index[word]
+    print("Top 5 dictionary :", word_to_index)
+
+    # 7. integer encoding
+    word_to_index['OOV'] = len(word_to_index) + 1
+    print("Top 5 dictionary with OOV :", word_to_index)
+
+    encoded_sentences = []
+    for sentence in preprocessed_sentences:
+        encoded_sentence = []
+        for word in sentence:
+            try:
+                encoded_sentence.append(word_to_index[word])
+            except KeyError:
+                encoded_sentence.append(word_to_index['OOV'])
+        encoded_sentences.append(encoded_sentence)
+    print("Encoded Preprocessed voca dictionary:", encoded_sentences)
+
+    ##### using counter method
+    print('📌 Integer Encoding using Counter :')
+    print("Normalized and Cleaned voca dictionary:", preprocessed_sentences)
+    print("Counted Words:", vocab)
+
+    all_words_list = sum(preprocessed_sentences, [])
+    print("All words list:", all_words_list)
+
+    # removing redundant and counting by using Counter() moudle
+    vocab = Counter(all_words_list)
+    print("Vocab Count:", vocab)
+
+    # removing OOT 7 words by using most_common()
+    vocab_size = 7
+    vocab = vocab.most_common(vocab_size)
+    print("Vocab Count:", vocab)
+
+
+
+
+
+
+
 
 
 
