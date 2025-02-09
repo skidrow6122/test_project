@@ -12,11 +12,18 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.stem import PorterStemmer
 from nltk.stem import LancasterStemmer
-from collections import Counter
+from collections import Counterk
 
+from soynlp import tokenizer
 from tensorflow import keras
-from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
+import numpy as np
+
+from tensorflow.keras.preprocessing.sequence import pad_sequences # padding
+from tensorflow.keras.utils import to_categorical # one hot encoding
+import pandas as pd
+from sklearn.model_selection import train_test_split # data spliting
+
 
 
 def test_text_preprocessing():
@@ -66,8 +73,8 @@ def test_text_preprocessing():
 
     # Cleaning
     text = "I was wondering if anyone out there could enlighten me on this car."
-    shortword = re.compile(r'\W*\b\w{1,2}\b') # remove short words
-    print("Cleaned word with re :", shortword.sub(' ', text))
+    short_word = re.compile(r'\W*\b\w{1,2}\b') # remove short words
+    print("Cleaned word with re :", short_word.sub(' ', text))
 
     # stopword
     stop_words_list = stopwords.words('english')
@@ -180,7 +187,7 @@ def test_encoding():
             except KeyError:
                 encoded_sentence.append(word_to_index['OOV'])
         encoded_sentences.append(encoded_sentence)
-    print("Encoded Preprocessed voca dictionary:", encoded_sentences)
+    print("Encoded preprocessed voca dictionary:", encoded_sentences)
 
     ##### using counter method
     print('📌 Integer Encoding using Counter :')
@@ -198,6 +205,176 @@ def test_encoding():
     vocab_size = 7
     vocab = vocab.most_common(vocab_size)
     print("Vocab Count:", vocab)
+
+    ##### using keras
+    print('📌 Integer Encoding using Keras :')
+    # Word tokenized sentences
+    preprocessed_sentences = [['barber', 'person'], ['barber', 'good', 'person'], ['barber', 'huge', 'person'],
+                              ['knew', 'secret'], ['secret', 'kept', 'huge', 'secret'], ['huge', 'secret'],
+                              ['barber', 'kept', 'word'], ['barber', 'kept', 'word'], ['barber', 'kept', 'secret'],
+                              ['keeping', 'keeping', 'huge', 'secret', 'driving', 'barber', 'crazy'],
+                              ['barber', 'went', 'huge', 'mountain']]
+    print("Word tokenized sentences with Normalization and Cleaning :", preprocessed_sentences)
+
+    # Integer indexing by frequency
+    tokenizer = Tokenizer()
+    tokenizer.fit_on_texts(preprocessed_sentences) # frequency sorting
+    print("Indexed words by frequency:", tokenizer.word_index)
+    print("word count :", tokenizer.word_counts)
+    print("Encoded sentences by frequency:", tokenizer.texts_to_sequences(preprocessed_sentences))
+
+    # Cleaning except for Top 5
+    voca_size = 5
+    tokenizer = Tokenizer(num_words = voca_size + 1) # tokenizer setting reset
+    tokenizer.fit_on_texts(preprocessed_sentences)
+    print("Encoded words by frequency:", tokenizer.texts_to_sequences(preprocessed_sentences))
+
+    # Considering OOV
+    tokenizer = Tokenizer(num_words=vocab_size + 2, oov_token='OOV') # tokenizer setting reset
+    tokenizer.fit_on_texts(preprocessed_sentences)
+    # keras oov value is default 1
+    print("Encoded words by frequency:", tokenizer.texts_to_sequences(preprocessed_sentences))
+
+
+
+def test_padding():
+    print('📌 Padding :')
+
+    # numpay padding
+    print('📌 Numpy Padding :')
+    # Word tokenized sentences
+    preprocessed_sentences = [['barber', 'person'], ['barber', 'good', 'person'], ['barber', 'huge', 'person'],
+                              ['knew', 'secret'], ['secret', 'kept', 'huge', 'secret'], ['huge', 'secret'],
+                              ['barber', 'kept', 'word'], ['barber', 'kept', 'word'], ['barber', 'kept', 'secret'],
+                              ['keeping', 'keeping', 'huge', 'secret', 'driving', 'barber', 'crazy'],
+                              ['barber', 'went', 'huge', 'mountain']]
+    print("Word tokenized sentences with Normalization and Cleaning :", preprocessed_sentences)
+    tokenizer = Tokenizer()
+    tokenizer.fit_on_texts(preprocessed_sentences) # frequency sorting
+    encoded_sentences = tokenizer.texts_to_sequences(preprocessed_sentences)
+    print("Encoded sentences by frequency:", encoded_sentences)
+
+    # find max length word
+    max_len = max(len(item) for item in encoded_sentences)
+    print("max length :", max_len)
+
+    # zero padding to length 7
+    for sentence in encoded_sentences:
+        while len(sentence) < max_len:
+            sentence.append(0)
+
+    padded_np = np.array(encoded_sentences)
+    print("Padded sentences:", padded_np)
+
+    # keras padding
+    print('📌 Keras Padding :')
+    encoded_sentences = tokenizer.texts_to_sequences(preprocessed_sentences)
+    print("Encoded sentences by frequency:", encoded_sentences)
+
+    # zero padding
+    padded = pad_sequences(encoded_sentences,
+                           padding='post', # filling zero behind
+                           truncating='post', # cutting from behind
+                           maxlen=5) # using dedicated shape
+    print("Padded sentences:", padded)
+
+def test_one_hot_encoding():
+    ##### one hot encoding
+    print('📌 One hot Encoding using Keras :')
+    text = "Today We will have a good baseball game because We have many good baseball players. Baseball team We should fight"
+
+    # 1. sentence tokenization
+    sentences = sent_tokenize(text)
+    print("After sentence tokenization", sentences)
+
+
+    vocab = {}
+    preprocessed_sentences = []
+    stop_words = set(stopwords.words('english'))
+
+    # 2. word tokenization / cleaning / normalization
+    for sentence in sentences:
+        tokenized_sentence = word_tokenize(sentence)
+        result = []
+
+        for word in tokenized_sentence:
+            word = word.lower() # Normalization lower char
+            if word not in stop_words: # Cleaning stop word
+                if len(word) > 2: # Cleaning short words
+                    result.append(word)
+                    if word not in vocab:
+                        vocab[word] = 0
+                    vocab[word] += 1
+        preprocessed_sentences.append(result)
+    print("Corpus After tokenization, cleaning, nomalization", preprocessed_sentences)
+    print("vocab:", vocab)
+
+    # 3. giving index by frequency with keras
+    tokenizer = Tokenizer()
+    tokenizer.fit_on_texts(preprocessed_sentences) # sorting
+    print("vocabulary :", tokenizer.word_index)
+
+    # 4. Integer encoding using vocabulary
+    sub_text ="Also basketball players will have good good game today. Since We are one team and played mini game together"
+    encoded_sub_text_sentences = tokenizer.texts_to_sequences([sub_text]) [0]
+    print("Encoded sub_text:", encoded_sub_text_sentences)
+    # [6, 2, 2, 4, 3, 7, 4]
+
+    # 5. one-hot encoding
+    one_hot_encoded_sub_text = to_categorical(encoded_sub_text_sentences)
+    print("One hot encoded sub_text:", one_hot_encoded_sub_text)
+    # [0. 0. 0. 0. 0. 0. 1. 0.] - one hot vector for idx 6
+    # [0. 0. 1. 0. 0. 0. 0. 0.] - one hot vector for idx 2
+    # [0. 0. 1. 0. 0. 0. 0. 0.] - one hot vector for idx 2
+    # [0. 0. 0. 0. 1. 0. 0. 0.] - one hot vector for idx 4
+    # [0. 0. 0. 1. 0. 0. 0. 0.] - one hot vector for idx 3
+    # [0. 0. 0. 0. 0. 0. 0. 1.] - one hot vector for idx 7
+    # [0. 0. 0. 0. 1. 0. 0. 0.] - one hot vector for idx 4
+
+def test_data_splitting():
+
+    print('📌 Data Splitting Summary:')
+
+    print('📌 Total Dataset Splitting :')
+    # dafaframe pandas
+    values = [['Final Chance!', 1],
+              ['Thanks for everything ...', 0],
+              ['Dear June, It`s been a while...', 0],
+              ['(AD) Don`t miss out this ..', 1]]
+    columns = ['Content', 'Flag']
+
+    df = pd.DataFrame(values, columns=columns)
+    X = df['Content']
+    y = df['Flag']
+    print("X data :", X.tolist())
+    print("y data :", y.tolist())
+
+    # numpy
+    np_array = np.arange(0, 16).reshape((4, 4))
+    print("total numpy data :", np_array)
+
+    X = np_array[:, :3]
+    y = np_array[:, 3]
+    print('X data :', X)
+    print('y data :', y)
+
+    print('📌 Test data Splitting :')
+
+    # making arbitrary Total data X, y
+    X, y = np.arange(10).reshape((5, 2)), range(5)
+    print('Total X data :', X)
+    print('Total y data :', list(y))
+
+    # split each data as 7:3
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1234)
+    print('X_train data :', X_train)
+    print('X_test data :', X_test)
+    print('y_train data :', y_train)
+    print('y_test data :', y_test)
+
+
+
+
 
 
 

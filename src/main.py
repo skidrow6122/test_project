@@ -8,7 +8,8 @@ import torch
 
 import numpy as np
 
-from src.services.text_preprocessing_example import (test_encoding)
+from src.services.data_analysis_example import (test_numpy, test_series, test_dataframe, test_matplotlib )
+from src.services.text_preprocessing_example import (test_text_preprocessing, test_encoding, test_padding, test_one_hot_encoding, test_data_splitting)
 
 def main():
     print("🚀 program start")
@@ -23,6 +24,7 @@ def main():
     print("NLTK version:", nltk.__version__)
     print("konlpy version:", konlpy.__version__)
 
+    print('✅ NLP basic test - #1')
     # numpy test
     #test_numpy()
 
@@ -39,12 +41,21 @@ def main():
     # Visualization test
     #test_matplotlib()
 
+    print('✅ Text Preprocessing test - #2')
     # text processing test
     #test_text_preprocessing()
 
     # Encoding test
-    test_encoding()
+    # test_encoding()
 
+    # Padding test
+    # test_padding()
+
+    # One hot encodig test
+    # test_one_hot_encoding()
+
+    # data splitting test
+    test_data_splitting()
 
 
 if __name__ == "__main__":
