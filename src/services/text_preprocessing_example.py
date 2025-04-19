@@ -12,7 +12,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.stem import PorterStemmer
 from nltk.stem import LancasterStemmer
-from collections import Counterk
+from collections import Counter
 
 from soynlp import tokenizer
 from tensorflow import keras
@@ -50,8 +50,8 @@ def test_text_preprocessing():
 
     # RegexpTokenizer - custom regex
     text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop"
-    tokenizer1 = RegexpTokenizer("[\w]+") # by number of char - more than 1
-    tokenizer2 = RegexpTokenizer("\s+", gaps=True) # by whitespace
+    tokenizer1 = RegexpTokenizer(r"[\w]+") # by number of char - more than 1
+    tokenizer2 = RegexpTokenizer(r"\s+", gaps=True) # by whitespace
     print('Word tokenization with NLTK RegexpTokenizer :', tokenizer1.tokenize(text))
     print('Word tokenization with NLTK RegexpTokenizer :', tokenizer2.tokenize(text))
 
