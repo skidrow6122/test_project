@@ -173,6 +173,53 @@ def test_keras_multi_input_logistic_regression():
 def test_tensor_dimension():
     print('##### tensor dimension test')
 
+    print('## 0D tensor - scala')
+    d = np.array(5)
+    print('Dimension of tensor:' , d.ndim)
+    print('size of tensor (shape):', d.shape)
+
+    print('## 1D tensor - vector')
+    d = np.array([1,2,3,4])
+    print('Dimension of tensor:', d.ndim)
+    print('size of tensor (shape):', d.shape)
+
+    print('## 2D tensor - matrix')
+    d = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+    print('Dimension of tensor:', d.ndim)
+    print('size of tensor (shape):', d.shape)
+
+    print('## 3D tensor - tensor')
+    d = np.array([
+        [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [10, 11, 12, 13, 14]],
+        [[15, 16, 17, 18, 19], [19, 20, 21, 22, 23], [23, 24, 25, 26, 27]]
+    ])
+    print('Dimension of tensor:', d.ndim)
+    print('size of tensor (shape):', d.shape)
+
+    print('## matrix element-wise calculation')
+    A = np.array([[10, 20, 30, 40], [50, 60, 70, 80]])
+    B = np.array([[5, 6, 7, 8], [1, 2, 3, 4]])
+    print('matrix sum:', A + B)
+    print('matrix difference:', A - B)
+
+    print('## vector inner product')
+    A = np.array([1, 2, 3])
+    B = np.array([4, 5, 6])
+    print('vector inner product:', np.dot(A, B))
+
+    print('## matrix multiplication')
+    A = np.array([[1, 3], [2, 4]])
+    B = np.array([[5, 7], [6, 8]])
+    print('matrix multiplication:', np.matmul(A, B))
+
+
+
+
+
+
+
+
+
 
 
 

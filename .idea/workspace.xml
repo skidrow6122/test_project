@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5f5a2b2-2736-4a53-82d1-8e3a61fbb602" name="Changes" comment="[chore] project reset">
-      <change afterPath="$PROJECT_DIR$/src/services/cosine_similarity_example.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/count_based_word_representaion_example.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/machine_learning_example.py" afterDir="false" />
+    <list default="true" id="f5f5a2b2-2736-4a53-82d1-8e3a61fbb602" name="Changes" comment="[chore] machine learning">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/machine_learning_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/machine_learning_example.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +29,12 @@
     &quot;assignee&quot;: &quot;skidrow6122&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/skidrow6122/test_project.git",
-    "accountId": "0b719bd7-dc34-478d-bee8-bd038fbd503f"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/skidrow6122/test_project.git&quot;,
+    &quot;accountId&quot;: &quot;0b719bd7-dc34-478d-bee8-bd038fbd503f&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -47,23 +44,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests in test_project.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/Users/jeonhyeongjun/dev/ml/test_project/src/services",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests in test_project.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jeonhyeongjun/dev/ml/test_project/src/services&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/services" />
@@ -139,7 +136,10 @@
       <workItem from="1738675649029" duration="13570000" />
       <workItem from="1738766502857" duration="1007000" />
       <workItem from="1738767516113" duration="23988000" />
-      <workItem from="1745071960165" duration="644000" />
+      <workItem from="1745071960165" duration="795000" />
+      <workItem from="1745074625426" duration="518000" />
+      <workItem from="1745075568513" duration="201000" />
+      <workItem from="1745150478523" duration="3783000" />
     </task>
     <task id="LOCAL-00001" summary="test commit">
       <option name="closed" value="true" />
@@ -197,7 +197,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745072230984</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="[chore] machine learning">
+      <option name="closed" value="true" />
+      <created>1745072619638</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745072619638</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,10 +241,11 @@
     <MESSAGE value="chore : text cleaning, nomalization &#10; - lemmatization&#10; - stemming&#10; - stopword&#10; - regex tokenization" />
     <MESSAGE value="[chore] Integer encoding&#10; - encoding example&#10; - library version adjusting" />
     <MESSAGE value="[chore] project reset" />
-    <option name="LAST_COMMIT_MESSAGE" value="[chore] project reset" />
+    <MESSAGE value="[chore] machine learning" />
+    <option name="LAST_COMMIT_MESSAGE" value="[chore] machine learning" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/test_project$main.coverage" NAME="main 커버리지 결과" MODIFIED="1745072184024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/test_project$main.coverage" NAME="main 커버리지 결과" MODIFIED="1745156081645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/test_project$.coverage" NAME=" Coverage Results" MODIFIED="1737383875898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
